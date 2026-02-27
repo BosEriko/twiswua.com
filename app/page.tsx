@@ -1,4 +1,11 @@
 import Template from "@template";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitch,
+  faXTwitter,
+  faInstagram,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 
 const HeroSection = () => {
   return (
@@ -128,11 +135,35 @@ const MerchSection = () => {
   );
 };
 
-const SocialSection = () => (
-  <section>
-    Socials Section
-  </section>
-);
+const SocialSection = () => {
+  const Socials = [
+    { title: "Twitch", link: "#", icon: faTwitch },
+    { title: "Twitter", link: "#", icon: faXTwitter },
+    { title: "YouTube", link: "#", icon: faYoutube },
+    { title: "Instagram", link: "#", icon: faInstagram },
+  ];
+
+  return (
+    <section className="bg-[#FE9E1C] p-10 rounded-4xl flex flex-col gap-5">
+      <h3 className="font-bold text-4xl text-center text-white">Stalk Me on Socials</h3>
+      <div className="text-center text-white font-bold">Don't be shy, say hi!</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-200 w-full mx-auto">
+        {Socials.map((social, index) => (
+          <a
+            href={social.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            key={index}
+            className="bg-[#FFB249] rounded-2xl p-3 flex items-center gap-3 text-[#3F2722] font-bold text-xl transition border border-[#FFD192] flex flex-col items-center justify-center text-[#FEFFFE] aspect-square"
+          >
+            <div><FontAwesomeIcon icon={social.icon} className="aspect-square h-15" /></div>
+            <div className="font-bold">{social.title}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default async function Home() {
   return (
