@@ -16,7 +16,7 @@ const roboto_condensed = Roboto_Condensed({
 const Default: React.FC<DefaultProps> = ({
   children,
   orientation = "default",
-  backgroundColor = "#f8f1e3",
+  backgroundColor = "#FEF6F3",
 }) => {
   return (
     <div
