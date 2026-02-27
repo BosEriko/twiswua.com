@@ -88,11 +88,45 @@ const ScheduleSection = () => {
   );
 };
 
-const MerchSection = () => (
-  <section>
-    Merch Section
-  </section>
-);
+const MerchSection = () => {
+  const Merch = [
+    {
+      name: "Cozy Tiger Hoodie",
+      price: "45.00",
+    },
+    {
+      name: "Striped Cub Tee",
+      price: "25.00",
+    },
+    {
+      name: "Morning Roar Mug",
+      price: "15.00",
+    },
+    {
+      name: "Tiger Ear Beanie",
+      price: "20.00",
+    },
+  ];
+
+  return (
+    <section className="p-10 flex flex-col gap-5">
+      <h3 className="font-bold text-4xl text-center text-[#3F2722]">Tiger Threads Merch</h3>
+      <div className="text-center text-[#3F2722]">Wear your stripes with rawr!</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {Merch.map((merch, index) => (
+          <div className="bg-white rounded-2xl p-3 flex flex-col gap-3" key={index}>
+            <div className="bg-gray-100 w-full aspect-square rounded-2xl"></div>
+            <div className="text-[#3F2722] font-bold text-xl">{merch.name}</div>
+            <div className="flex justify-between items-center">
+              <div className="text-[#FE9E1C] font-bold">₱{merch.price}</div>
+              <div className="bg-[#3F2722] rounded-2xl py-2 px-4 text-white font-bold">Buy</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 const SocialSection = () => (
   <section>
