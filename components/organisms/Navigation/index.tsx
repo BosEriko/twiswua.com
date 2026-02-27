@@ -5,7 +5,6 @@ const Navigation = () => {
         <li>Schedule</li>
         <li>Shop</li>
         <li>Socials</li>
-        <li>About</li>
       </ul>
     </nav>
   );
