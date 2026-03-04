@@ -48,12 +48,20 @@ const HeroSection = () => {
 const ScheduleSection = () => {
   const [schedule, setSchedule] = useState<any[]>([]);
 
+  const WEEKDAYS = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
   type TwitchSegment = {
     start_time: string;
     title: string;
-    category?: {
-      name: string;
-    };
+    category: { name: string } | null;
   };
 
   useEffect(() => {
@@ -61,21 +69,41 @@ const ScheduleSection = () => {
       const res = await fetch("/api/twitch/schedule");
       const data = await res.json();
 
-      const formatted = data.data.segments.map((segment: TwitchSegment) => {
-        const date = new Date(segment.start_time);
+      const segments: TwitchSegment[] = data.data.segments;
 
-        return {
-          day: date.toLocaleDateString("en-US", { weekday: "long" }),
-          time: date.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-          }),
-          description: segment.title,
-          game: segment.category?.name || "TBA",
-        };
+      const slots: Record<string, any> = {};
+
+      WEEKDAYS.forEach((day) => {
+        slots[day] = null;
       });
 
-      setSchedule(formatted);
+      for (const segment of segments) {
+        const date = new Date(segment.start_time);
+
+        const weekday = date.toLocaleDateString("en-US", {
+          weekday: "long",
+          timeZone: "Asia/Singapore",
+        });
+
+        if (!slots[weekday]) {
+          const time = date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            timeZone: "Asia/Singapore",
+          });
+
+          slots[weekday] = {
+            day: weekday,
+            time,
+            description: segment.title,
+            game: segment.category?.name ?? "TBA",
+          };
+        }
+      }
+
+      const ordered = WEEKDAYS.map((day) => slots[day]);
+
+      setSchedule(ordered);
     };
 
     fetchSchedule();
@@ -86,27 +114,44 @@ const ScheduleSection = () => {
       <h3 className="font-bold text-4xl text-center text-[#3F2722]">
         Weekly Hunt Schedule
       </h3>
+
       <div className="text-center text-[#3F2722]">
         Catch me live on Twitch! (GMT+8)
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        {schedule.map((item, index) => (
-          <div
-            className="bg-[#FFF9E0] rounded-2xl border-2 border-[#FFBF69] p-3 flex flex-col gap-3 items-center"
-            key={index}
-          >
-            <div className="rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]">
-              {item.day}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6">
+        {WEEKDAYS.map((day, index) => {
+          const item = schedule[index];
+
+          const isEmpty = !item;
+
+          return (
+            <div
+              key={day}
+              className={`rounded-2xl border-2 p-3 flex flex-col gap-3 items-center transition ${
+                isEmpty
+                  ? "bg-gray-100 border-gray-300 opacity-60"
+                  : "bg-[#FFF9E0] border-[#FFBF69]"
+              }`}
+            >
+              <div className="rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]">
+                {day}
+              </div>
+
+              {isEmpty ? (
+                <div className="text-gray-400 font-semibold">No Stream</div>
+              ) : (
+                <>
+                  <div className="text-[#FE9E1C] text-sm">{item.game}</div>
+                  <div className="text-[#FE9E1C] font-bold">{item.time}</div>
+                  <div className="font-bold text-center">
+                    {item.description}
+                  </div>
+                </>
+              )}
             </div>
-
-            <div className="text-[#FE9E1C] text-sm">{item.game}</div>
-
-            <div className="text-[#FE9E1C] font-bold">{item.time}</div>
-
-            <div className="font-bold">{item.description}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
