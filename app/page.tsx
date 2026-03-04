@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useState } from "react";
 import Template from "@template";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -44,50 +46,65 @@ const HeroSection = () => {
 };
 
 const ScheduleSection = () => {
-  const Schedule = [
-    {
-      day: "Monday",
-      time: "6:00PM",
-      description: "Cozy Mondays",
-      game: "Minecraft"
-    },
-    {
-      day: "Tuesday",
-      time: "6:00PM",
-      description: "Try Hard Tuesday",
-      game: "Just Chatting"
-    },
-    {
-      day: "Wednesday",
-      time: "6:00PM",
-      description: "Workshop Wednesday (Crochet)",
-      game: "Makers & Crafting"
-    },
-    {
-      day: "Thursday",
-      time: "6:00PM",
-      description: "Try Hard Thursday",
-      game: "Just Chatting"
-    },
-    {
-      day: "Friday",
-      time: "6:00PM",
-      description: "Foodie Friday (Cooking)",
-      game: "Food & Drink"
-    },
-  ];
+  const [schedule, setSchedule] = useState<any[]>([]);
+
+  type TwitchSegment = {
+    start_time: string;
+    title: string;
+    category?: {
+      name: string;
+    };
+  };
+
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      const res = await fetch("/api/twitch/schedule");
+      const data = await res.json();
+
+      const formatted = data.data.segments.map((segment: TwitchSegment) => {
+        const date = new Date(segment.start_time);
+
+        return {
+          day: date.toLocaleDateString("en-US", { weekday: "long" }),
+          time: date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+          }),
+          description: segment.title,
+          game: segment.category?.name || "TBA",
+        };
+      });
+
+      setSchedule(formatted);
+    };
+
+    fetchSchedule();
+  }, []);
 
   return (
     <section className="bg-white p-10 rounded-4xl flex flex-col gap-5">
-      <h3 className="font-bold text-4xl text-center text-[#3F2722]">Weekly Hunt Schedule</h3>
-      <div className="text-center text-[#3F2722]">Catch me live on Twitch! (GMT+8)</div>
+      <h3 className="font-bold text-4xl text-center text-[#3F2722]">
+        Weekly Hunt Schedule
+      </h3>
+      <div className="text-center text-[#3F2722]">
+        Catch me live on Twitch! (GMT+8)
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        {Schedule.map((schedule) => (
-          <div className="bg-[#FFF9E0] rounded-2xl border-2 border-[#FFBF69] p-3 flex flex-col gap-3 items-center" key={schedule.day}>
-            <div className="rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]">{schedule.day}</div>
-            <div className="text-[#FE9E1C] text-sm">{schedule.game}</div>
-            <div className="text-[#FE9E1C] font-bold">{schedule.time}</div>
-            <div className="font-bold">{schedule.description}</div>
+        {schedule.map((item, index) => (
+          <div
+            className="bg-[#FFF9E0] rounded-2xl border-2 border-[#FFBF69] p-3 flex flex-col gap-3 items-center"
+            key={index}
+          >
+            <div className="rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]">
+              {item.day}
+            </div>
+
+            <div className="text-[#FE9E1C] text-sm">{item.game}</div>
+
+            <div className="text-[#FE9E1C] font-bold">{item.time}</div>
+
+            <div className="font-bold">{item.description}</div>
           </div>
         ))}
       </div>
@@ -165,7 +182,7 @@ const SocialSection = () => {
   );
 };
 
-export default async function Home() {
+export default function Home() {
   return (
     <Template.Default>
       <HeroSection />
