@@ -46,8 +46,6 @@ const HeroSection = () => {
 };
 
 const ScheduleSection = () => {
-  const [schedule, setSchedule] = useState<any[]>([]);
-
   const WEEKDAYS = [
     "Sunday",
     "Monday",
@@ -64,18 +62,36 @@ const ScheduleSection = () => {
     category: { name: string } | null;
   };
 
+  type Vacation = {
+    start_time: string;
+    end_time: string;
+  };
+
+  const [schedule, setSchedule] = useState<any[]>([]);
+  const [vacation, setVacation] = useState<Vacation | null>(null);
+  const [isOnVacation, setIsOnVacation] = useState(false);
+
   useEffect(() => {
     const fetchSchedule = async () => {
       const res = await fetch("/api/twitch/schedule");
       const data = await res.json();
 
       const segments: TwitchSegment[] = data.data.segments;
+      const vacationData: Vacation | null = data.data.vacation;
+
+      if (vacationData) {
+        const now = new Date();
+        const start = new Date(vacationData.start_time);
+        const end = new Date(vacationData.end_time);
+
+        if (now >= start && now <= end) {
+          setIsOnVacation(true);
+          setVacation(vacationData);
+        }
+      }
 
       const slots: Record<string, any> = {};
-
-      WEEKDAYS.forEach((day) => {
-        slots[day] = null;
-      });
+      WEEKDAYS.forEach((day) => (slots[day] = null));
 
       for (const segment of segments) {
         const date = new Date(segment.start_time);
@@ -102,7 +118,6 @@ const ScheduleSection = () => {
       }
 
       const ordered = WEEKDAYS.map((day) => slots[day]);
-
       setSchedule(ordered);
     };
 
@@ -119,11 +134,22 @@ const ScheduleSection = () => {
         Catch me live on Twitch! (GMT+8)
       </div>
 
+      {/* Vacation Banner */}
+      {isOnVacation && vacation && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 p-4 rounded-xl text-center font-semibold">
+          <span>🌴 On Vacation until </span>
+          <span>
+            {new Date(vacation.end_time).toLocaleDateString("en-US", {
+              timeZone: "Asia/Singapore",
+            })}
+          </span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6">
         {WEEKDAYS.map((day, index) => {
           const item = schedule[index];
-
-          const isEmpty = !item;
+          const isEmpty = !item || isOnVacation;
 
           return (
             <div
@@ -139,7 +165,9 @@ const ScheduleSection = () => {
               </div>
 
               {isEmpty ? (
-                <div className="text-gray-400 font-semibold">No Stream</div>
+                <div className="text-gray-400 font-semibold">
+                  {isOnVacation ? "On Break" : "No Stream"}
+                </div>
               ) : (
                 <>
                   <div className="text-[#FE9E1C] text-sm">{item.game}</div>
