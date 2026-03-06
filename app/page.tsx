@@ -175,10 +175,11 @@ const ScheduleSection = () => {
             <div
               key={day}
               className={`
-                rounded-2xl border-2 p-3 flex flex-col gap-3 items-center transition
+                rounded-2xl border-2 p-3 flex flex-col gap-3 items-center transition cursor-pointer
                 ${isEmpty ? "bg-gray-100 border-gray-300 opacity-60" : "bg-[#FFF9E0] border-[#FFBF69]"}
-                ${isLive && day === WEEKDAYS[new Date().getDay()] ? "bg-[#FFF9E0] border-[#FFBF69]" : "bg-[#FFF9E0] border-[#FFBF69]"}
+                ${isLive && day === WEEKDAYS[new Date().getDay()] ? "bg-green-100 border-green-300 scale-110 hover:bg-green-200 hover:border-green-400 transition-all" : "bg-[#FFF9E0] border-[#FFBF69]"}
               `}
+              onClick={() => window.open(`https://twitch.tv/${isLive && day === WEEKDAYS[new Date().getDay()] ? "twiswua" : "twiswua/schedule"}`, "_blank")}
             >
               <div className="rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]">
                 {day}
@@ -192,9 +193,7 @@ const ScheduleSection = () => {
                 <>
                   <div className="text-[#FE9E1C] text-sm">{isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.game_name : item.game}</div>
                   <div className="text-[#FE9E1C] font-bold">{isLive && day === WEEKDAYS[new Date().getDay()] ? <span>🔴 Live</span> : item.time}</div>
-                  <div className="font-bold text-center">
-                    {isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.title : item.description}
-                  </div>
+                  <div className="font-bold text-center">{isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.title : item.description}</div>
                 </>
               )}
             </div>
