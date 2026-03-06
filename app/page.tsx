@@ -125,7 +125,7 @@ const ScheduleSection = () => {
   }, []);
 
   return (
-    <section className="bg-white p-10 rounded-4xl flex flex-col gap-5">
+    <section className="bg-white p-10 rounded-4xl flex flex-col gap-5" id="schedule">
       <h3 className="font-bold text-4xl text-center text-[#3F2722]">
         Weekly Hunt Schedule
       </h3>
@@ -206,7 +206,7 @@ const MerchSection = () => {
   ];
 
   return (
-    <section className="p-10 flex flex-col gap-5">
+    <section className="p-10 flex flex-col gap-5" id="shop">
       <h3 className="font-bold text-4xl text-center text-[#3F2722]">Tiger Threads Merch</h3>
       <div className="text-center text-[#3F2722]">Wear your stripes with rawr!</div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -234,7 +234,7 @@ const SocialSection = () => {
   ];
 
   return (
-    <section className="bg-[#FE9E1C] p-10 rounded-4xl flex flex-col gap-5">
+    <section className="bg-[#FE9E1C] p-10 rounded-4xl flex flex-col gap-5" id="socials">
       <h3 className="font-bold text-4xl text-center text-white">Stalk Me on Socials</h3>
       <div className="text-center text-white font-bold">Don't be shy, say hi!</div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-200 w-full mx-auto">
