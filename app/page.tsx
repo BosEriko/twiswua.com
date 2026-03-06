@@ -70,6 +70,8 @@ const ScheduleSection = () => {
   const [schedule, setSchedule] = useState<any[]>([]);
   const [vacation, setVacation] = useState<Vacation | null>(null);
   const [isOnVacation, setIsOnVacation] = useState(false);
+  const [isLive, setIsLive] = useState(false);
+  const [liveData, setLiveData] = useState(null);
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -124,6 +126,24 @@ const ScheduleSection = () => {
     fetchSchedule();
   }, []);
 
+  useEffect(() => {
+    const checkLiveStatus = async () => {
+      try {
+        const res = await fetch("/api/twitch/status");
+        const data = await res.json();
+        setIsLive(data.isLive);
+        if (data.isLive) {
+          setLiveData(data.stream)
+        }
+      } catch (err) {
+        console.error("Live status error:", err);
+      }
+    };
+    checkLiveStatus();
+    const interval = setInterval(checkLiveStatus, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="bg-white p-10 rounded-4xl flex flex-col gap-5" id="schedule">
       <h3 className="font-bold text-4xl text-center text-[#3F2722]">
@@ -154,11 +174,11 @@ const ScheduleSection = () => {
           return (
             <div
               key={day}
-              className={`rounded-2xl border-2 p-3 flex flex-col gap-3 items-center transition ${
-                isEmpty
-                  ? "bg-gray-100 border-gray-300 opacity-60"
-                  : "bg-[#FFF9E0] border-[#FFBF69]"
-              }`}
+              className={`
+                rounded-2xl border-2 p-3 flex flex-col gap-3 items-center transition
+                ${isEmpty ? "bg-gray-100 border-gray-300 opacity-60" : "bg-[#FFF9E0] border-[#FFBF69]"}
+                ${isLive && day === WEEKDAYS[new Date().getDay()] ? "bg-[#FFF9E0] border-[#FFBF69]" : "bg-[#FFF9E0] border-[#FFBF69]"}
+              `}
             >
               <div className="rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]">
                 {day}
@@ -170,10 +190,10 @@ const ScheduleSection = () => {
                 </div>
               ) : (
                 <>
-                  <div className="text-[#FE9E1C] text-sm">{item.game}</div>
-                  <div className="text-[#FE9E1C] font-bold">{item.time}</div>
+                  <div className="text-[#FE9E1C] text-sm">{isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.game_name : item.game}</div>
+                  <div className="text-[#FE9E1C] font-bold">{isLive && day === WEEKDAYS[new Date().getDay()] ? <span>🔴 Live</span> : item.time}</div>
                   <div className="font-bold text-center">
-                    {item.description}
+                    {isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.title : item.description}
                   </div>
                 </>
               )}

@@ -11,25 +11,7 @@ const pixelify = Pixelify_Sans({
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isLive, setIsLive] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const checkLiveStatus = async () => {
-      try {
-        const res = await fetch("/api/twitch/status");
-        const data = await res.json();
-        setIsLive(data.isLive);
-      } catch (err) {
-        console.error("Live status error:", err);
-      }
-    };
-    checkLiveStatus();
-    const interval = setInterval(checkLiveStatus, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const LiveBadge = () => isLive ? (<span className="flex items-center gap-1 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">🔴 LIVE</span>) : null;
 
   return (
     <header>
@@ -40,7 +22,6 @@ const Header = () => {
           >
             <span>🐯</span>
             <span>TwisWua</span>
-            <LiveBadge />
           </h2>
         </button>
         <button
@@ -56,7 +37,6 @@ const Header = () => {
             >
               <span>🐯</span>
               <span>TwisWua</span>
-              <LiveBadge />
             </h2>
           </button>
           <Navigation />
