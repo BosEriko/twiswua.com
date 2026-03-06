@@ -72,6 +72,8 @@ const ScheduleSection = () => {
   const [isOnVacation, setIsOnVacation] = useState(false);
   const [isLive, setIsLive] = useState(false);
   const [liveData, setLiveData] = useState<any | null>(null);
+  const [nextStreamDate, setNextStreamDate] = useState<Date | null>(null);
+  const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -121,6 +123,16 @@ const ScheduleSection = () => {
 
       const ordered = WEEKDAYS.map((day) => slots[day]);
       setSchedule(ordered);
+
+      const now = new Date();
+      const upcoming = segments
+        .map((s) => new Date(s.start_time))
+        .filter((date) => date > now)
+        .sort((a, b) => a.getTime() - b.getTime())[0];
+
+      if (upcoming) {
+        setNextStreamDate(upcoming);
+      }
     };
 
     fetchSchedule();
@@ -133,7 +145,7 @@ const ScheduleSection = () => {
         const data = await res.json();
         setIsLive(data.isLive);
         if (data.isLive) {
-          setLiveData(data.stream)
+          setLiveData(data.stream);
         }
       } catch (err) {
         console.error("Live status error:", err);
@@ -144,8 +156,36 @@ const ScheduleSection = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (!nextStreamDate) return;
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = nextStreamDate.getTime() - now;
+
+      if (distance <= 0) {
+        setCountdown("Starting soon");
+        return;
+      }
+
+      const hours = Math.floor(distance / (1000 * 60 * 60));
+      const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setCountdown(`${hours}h ${minutes}m ${seconds}s`);
+    };
+
+    updateCountdown();
+
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [nextStreamDate]);
+
   return (
-    <section className="bg-white p-10 rounded-4xl flex flex-col gap-5" id="schedule">
+    <section className="bg-white p-10 rounded-4xl flex flex-col gap-5 relative" id="schedule">
       <h3 className="font-bold text-4xl text-center text-[#3F2722]">
         Weekly Hunt Schedule
       </h3>
@@ -153,6 +193,8 @@ const ScheduleSection = () => {
       <div className="text-center text-[#3F2722]">
         Catch me live on Twitch! (GMT+8)
       </div>
+
+      {!isLive && countdown && <div className="text-center font-semibold text-black bg-[#FE9E1C] py-2 px-5 rounded-full absolute top-10 right-10">{countdown}</div>}
 
       {/* Vacation Banner */}
       {isOnVacation && vacation && (
