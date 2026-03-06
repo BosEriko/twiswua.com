@@ -71,7 +71,7 @@ const ScheduleSection = () => {
   const [vacation, setVacation] = useState<Vacation | null>(null);
   const [isOnVacation, setIsOnVacation] = useState(false);
   const [isLive, setIsLive] = useState(false);
-  const [liveData, setLiveData] = useState(null);
+  const [liveData, setLiveData] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchSchedule = async () => {
