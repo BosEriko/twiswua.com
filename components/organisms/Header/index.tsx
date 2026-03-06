@@ -63,7 +63,7 @@ const Header = () => {
           <a
             href="https://twitch.tv/TwisWua"
             target="_blank"
-            className="bg-[#F87317] rounded-full py-2 px-4 text-white font-bold mt-4 md:mt-0 md:ml-4 text-center"
+            className="bg-[#F87317] rounded-full py-2 px-4 text-white font-bold mt-4 md:mt-0 md:ml-4 text-center transition-all hover:scale-105"
           >
             Go to Twitch
           </a>

@@ -23,14 +23,14 @@ const HeroSection = () => {
           <a
             href="https://twitch.tv/TwisWua"
             target="_blank"
-            className="bg-[#F87317] rounded-full py-2 px-4 text-white font-bold"
+            className="bg-[#F87317] rounded-full py-2 px-4 text-white font-bold transition-all hover:scale-105"
           >
             Watch Live on Twitch
           </a>
           <a
             href="https://discord.gg/kG4pSmW825"
             target="_blank"
-            className="bg-[#A16306] rounded-full py-2 px-4 text-white font-bold"
+            className="bg-[#A16306] rounded-full py-2 px-4 text-white font-bold transition-all hover:scale-105"
           >
             Join Discord
           </a>
