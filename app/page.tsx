@@ -207,20 +207,24 @@ const ScheduleSection = () => {
 const MerchSection = () => {
   const Merch = [
     {
+      cover_photo: "https://i.imgur.com/6TKboys.png",
       name: "Cozy Tiger Hoodie",
-      price: "45.00",
+      price: "800.00",
     },
     {
+      cover_photo: "https://i.imgur.com/MEti9Nu.png",
       name: "Striped Cub Tee",
-      price: "25.00",
+      price: "500.00",
     },
     {
+      cover_photo: "https://i.imgur.com/2r5TxWb.png",
       name: "Morning Roar Mug",
-      price: "15.00",
+      price: "250.00",
     },
     {
+      cover_photo: "https://i.imgur.com/aA6ItM0.png",
       name: "Tiger Ear Beanie",
-      price: "20.00",
+      price: "300.00",
     },
   ];
 
@@ -231,11 +235,11 @@ const MerchSection = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {Merch.map((merch, index) => (
           <div className="bg-white rounded-2xl p-3 flex flex-col gap-3" key={index}>
-            <div className="bg-gray-100 w-full aspect-square rounded-2xl"></div>
+            <div className="bg-gray-100 w-full aspect-square rounded-2xl bg-cover" style={{ backgroundImage: `url("${merch.cover_photo}")` }}></div>
             <div className="text-[#3F2722] font-bold text-xl">{merch.name}</div>
             <div className="flex justify-between items-center">
               <div className="text-[#FE9E1C] font-bold">₱{merch.price}</div>
-              <div className="bg-[#3F2722] rounded-2xl py-2 px-4 text-white font-bold">Buy</div>
+              <div className="bg-[#3F2722] rounded-2xl py-2 px-4 text-white font-bold">Out of Stock</div>
             </div>
           </div>
         ))}
