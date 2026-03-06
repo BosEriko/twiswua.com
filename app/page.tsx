@@ -194,7 +194,7 @@ const ScheduleSection = () => {
         Catch me live on Twitch! (GMT+8)
       </div>
 
-      {!isLive && countdown && <div className="text-center font-semibold text-black bg-[#FE9E1C] py-2 px-5 text-sm rounded-full absolute top-10 right-10">{countdown}</div>}
+      {!isLive && countdown && <div className="text-center font-semibold text-black bg-[#FE9E1C] py-2 px-5 text-sm rounded-full inline-block mx-auto md:absolute md:top-10 md:right-10">{countdown}</div>}
 
       {/* Vacation Banner */}
       {isOnVacation && vacation && (
