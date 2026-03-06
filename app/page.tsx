@@ -251,8 +251,8 @@ const MerchSection = () => {
 const SocialSection = () => {
   const Socials = [
     { title: "Twitch", link: "https://www.twitch.tv/twiswua", icon: faTwitch },
-    { title: "Twitter", link: "https://x.com/twiswua", icon: faXTwitter },
     { title: "YouTube", link: "https://www.youtube.com/@twiswua", icon: faYoutube },
+    { title: "Twitter", link: "https://x.com/twiswua", icon: faXTwitter },
     { title: "Instagram", link: "https://www.instagram.com/twiswua_/", icon: faInstagram },
   ];
 
