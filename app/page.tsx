@@ -246,10 +246,10 @@ const MerchSection = () => {
 
 const SocialSection = () => {
   const Socials = [
-    { title: "Twitch", link: "#", icon: faTwitch },
-    { title: "Twitter", link: "#", icon: faXTwitter },
-    { title: "YouTube", link: "#", icon: faYoutube },
-    { title: "Instagram", link: "#", icon: faInstagram },
+    { title: "Twitch", link: "https://www.twitch.tv/twiswua", icon: faTwitch },
+    { title: "Twitter", link: "https://x.com/twiswua", icon: faXTwitter },
+    { title: "YouTube", link: "https://www.youtube.com/@twiswua", icon: faYoutube },
+    { title: "Instagram", link: "https://www.instagram.com/twiswua_/", icon: faInstagram },
   ];
 
   return (
@@ -263,9 +263,9 @@ const SocialSection = () => {
             target="_blank"
             rel="noopener noreferrer"
             key={index}
-            className="bg-[#FFB249] rounded-2xl p-3 flex items-center gap-3 text-[#3F2722] font-bold text-xl transition border border-[#FFD192] flex flex-col items-center justify-center text-[#FEFFFE] aspect-square"
+            className="bg-[#FFB249] rounded-2xl p-3 flex items-center gap-3 text-[#3F2722] font-bold text-xl transition border border-[#FFD192] flex flex-col items-center justify-center text-[#FEFFFE] aspect-square hover:scale-110 transition-all"
           >
-            <div><FontAwesomeIcon icon={social.icon} className="aspect-square h-15" /></div>
+            <div className="text-4xl"><FontAwesomeIcon icon={social.icon} /></div>
             <div className="font-bold">{social.title}</div>
           </a>
         ))}
