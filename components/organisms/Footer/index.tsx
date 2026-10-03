@@ -12,7 +12,15 @@ const Footer = () => {
           <FontAwesomeIcon icon={faPaw} className="-rotate-6" />
         </div>
         <div className="font-hand text-2xl font-bold text-bark-light flex items-center gap-2">
-          Made with <FontAwesomeIcon icon={faHeart} className="text-stamp text-base" aria-label="love" /> and lots of rawr
+          Made with <FontAwesomeIcon icon={faHeart} className="text-stamp text-base" aria-label="love" /> by{" "}
+          <a
+            href="https://boseriko.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-dashed underline-offset-4 hover:text-tiger transition"
+          >
+            Bos Eriko
+          </a>
         </div>
       </div>
     </footer>
