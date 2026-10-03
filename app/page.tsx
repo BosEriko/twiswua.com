@@ -7,41 +7,107 @@ import {
   faXTwitter,
   faInstagram,
   faYoutube,
+  faDiscord,
 } from "@fortawesome/free-brands-svg-icons";
+import {
+  faCircle,
+  faPaw,
+  faStar,
+  faUmbrellaBeach,
+} from "@fortawesome/free-solid-svg-icons";
+
+const TILTS = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2", "-rotate-3", "rotate-2", "-rotate-1"];
+
+const Washi = ({ className = "" }: { className?: string }) => (
+  <span aria-hidden="true" className={`washi absolute h-7 w-24 ${className}`} />
+);
+
+const SectionHeading = ({ title, note }: { title: string; note: string }) => (
+  <div className="flex flex-col items-center gap-2 text-center">
+    <h3 className="font-marker text-4xl sm:text-5xl text-bark -rotate-1">
+      <span className="highlight">{title}</span>
+    </h3>
+    <p className="font-hand text-2xl sm:text-3xl font-bold text-tiger-dark rotate-1">{note}</p>
+  </div>
+);
 
 const HeroSection = () => {
   return (
-    <section className="flex flex-col-reverse lg:flex-row gap-10 items-center justify-between px-4 my-20">
-      <div className="flex flex-col gap-5 lg:w-1/2">
-        <h2 className="font-bold text-3xl sm:text-4xl">Rawr! Welcome to the Tiger Den!</h2>
-        <p className="font-semibold text-lg sm:text-xl">
-          I'm TwisWua, your favorite buddy tiger streamer!<br />
-          Get ready for chaos, laughs and lots of gaming.<br />
-          Join the pride today!
+    <section className="grid lg:grid-cols-2 gap-16 lg:gap-10 items-center pt-6 lg:pt-12">
+      <div className="flex flex-col gap-7 order-2 lg:order-1">
+        <span className="self-start font-hand text-2xl font-bold bg-note-yellow px-4 py-1 -rotate-2 shadow-paper">
+          Hi there, cub!
+        </span>
+        <h2 className="font-marker text-5xl sm:text-6xl leading-[1.15] text-bark">
+          Rawr! Welcome to the <span className="highlight text-tiger">Tiger Den!</span>
+        </h2>
+        <p className="text-lg sm:text-xl text-bark-light leading-relaxed max-w-xl">
+          I'm TwisWua, your favorite buddy tiger streamer! Get ready for chaos, laughs and lots of gaming. Join the pride today!
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
           <a
             href="https://twitch.tv/TwisWua"
             target="_blank"
-            className="bg-[#F87317] rounded-full py-2 px-4 text-white font-bold transition-all hover:scale-105"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-tiger hover:bg-tiger-dark text-white font-bold text-lg rounded-md py-3 px-6 shadow-paper -rotate-1 hover:rotate-0 hover:-translate-y-0.5 transition"
           >
+            <FontAwesomeIcon icon={faTwitch} />
             Watch Live on Twitch
           </a>
           <a
             href="https://discord.gg/kG4pSmW825"
             target="_blank"
-            className="bg-[#A16306] rounded-full py-2 px-4 text-white font-bold transition-all hover:scale-105"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-white hover:bg-sand text-bark font-bold text-lg rounded-md py-3 px-6 shadow-paper border-2 border-dashed border-bark/30 rotate-1 hover:rotate-0 hover:-translate-y-0.5 transition"
           >
+            <FontAwesomeIcon icon={faDiscord} />
             Join Discord
           </a>
         </div>
       </div>
-      <img
-        src="/images/placeholder.png"
-        alt="Tiger Streamer"
-        className="rounded-lg w-full sm:w-3/4 lg:w-1/2 aspect-square object-cover"
-      />
+      <div className="relative order-1 lg:order-2 mx-auto w-full max-w-sm sm:max-w-md">
+        <figure className="relative bg-white p-4 pb-16 shadow-paper-lg rotate-3 hover:rotate-1 transition-transform">
+          <Washi className="-top-3 left-1/2 -translate-x-1/2 -rotate-3" />
+          <img
+            src="/images/placeholder.png"
+            alt="TwisWua, the tiger streamer"
+            className="w-full aspect-square object-cover bg-sand"
+          />
+          <figcaption className="absolute bottom-3 inset-x-0 text-center font-hand text-3xl font-bold text-bark">
+            that's me!
+          </figcaption>
+        </figure>
+        <div className="absolute -top-6 -left-3 sm:-left-8 w-24 h-24 rounded-full bg-tiger text-white font-marker text-2xl flex items-center justify-center -rotate-12 border-4 border-white shadow-paper">
+          Rawr!
+        </div>
+        <div className="absolute -bottom-5 -right-2 sm:-right-5 w-16 h-16 rounded-full bg-note-yellow text-bark text-2xl flex items-center justify-center rotate-12 border-4 border-white shadow-paper">
+          <FontAwesomeIcon icon={faPaw} />
+        </div>
+      </div>
     </section>
+  );
+};
+
+const TapeTicker = () => {
+  const WORDS = ["Rawr", "Join the pride", "Chaos", "Laughs", "Lots of gaming"];
+
+  return (
+    <div className="relative left-1/2 -translate-x-1/2 w-[110vw] -rotate-1" aria-hidden="true">
+      <div className="washi overflow-hidden py-3 [--washi-color:rgb(254_158_28/0.85)]">
+        <div className="flex w-max animate-marquee">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0">
+              {[...WORDS, ...WORDS].map((word, index) => (
+                <span key={index} className="flex items-center gap-8 pl-8 font-marker text-2xl text-bark uppercase whitespace-nowrap">
+                  {word}
+                  <FontAwesomeIcon icon={faStar} className="text-white text-base" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -184,23 +250,28 @@ const ScheduleSection = () => {
     return () => clearInterval(interval);
   }, [nextStreamDate]);
 
+  const today = WEEKDAYS[new Date().getDay()];
+
   return (
-    <section className="bg-white p-10 rounded-4xl flex flex-col gap-5 relative" id="schedule">
-      <h3 className="font-bold text-4xl text-center text-[#3F2722]">
-        Weekly Hunt Schedule
-      </h3>
+    <section id="schedule" className="relative lined-paper shadow-paper-lg px-5 sm:pl-20 sm:pr-10 py-14 flex flex-col gap-10">
+      <Washi className="-top-3 left-6 -rotate-6" />
+      <Washi className="-top-3 right-6 rotate-6 [--washi-color:rgb(248_115_23/0.5)]" />
 
-      <div className="text-center text-[#3F2722]">
-        Catch me live on Twitch! (GMT+8)
-      </div>
+      <SectionHeading title="Weekly Hunt Schedule" note="Catch me live on Twitch! (GMT+8)" />
 
-      {!isLive && countdown && <div className="text-center font-semibold text-black bg-[#FE9E1C] py-2 px-5 text-sm rounded-full inline-block mx-auto md:absolute md:top-10 md:right-10">{countdown}</div>}
+      {!isLive && countdown && (
+        <div className="mx-auto bg-white px-5 py-2 shadow-paper -rotate-2 font-hand text-2xl font-bold flex items-center gap-2">
+          <span className="text-bark-light">Next stream in</span>
+          <span className="text-tiger-dark tabular-nums">{countdown}</span>
+        </div>
+      )}
 
       {/* Vacation Banner */}
       {isOnVacation && vacation && (
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 p-4 rounded-xl text-center font-semibold">
-          <span>🌴 On Vacation until </span>
+        <div className="mx-auto bg-note-pink px-6 py-3 shadow-paper rotate-1 font-hand text-2xl font-bold flex items-center gap-3">
+          <FontAwesomeIcon icon={faUmbrellaBeach} className="text-tiger-dark text-xl" />
           <span>
+            On Vacation until{" "}
             {new Date(vacation.end_time).toLocaleDateString("en-US", {
               timeZone: "Asia/Singapore",
             })}
@@ -208,32 +279,50 @@ const ScheduleSection = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-8 xl:gap-5 pt-2">
         {WEEKDAYS.map((day, index) => {
           const item = schedule[index];
-          const isEmpty = (!item || isOnVacation) && !(isLive && day === WEEKDAYS[new Date().getDay()]);
+          const isLiveToday = isLive && day === today;
+          const isEmpty = (!item || isOnVacation) && !isLiveToday;
 
           return (
-            <div
+            <a
               key={day}
+              href={`https://twitch.tv/${isLiveToday ? "twiswua" : "twiswua/schedule"}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`
-                rounded-2xl border-2 p-3 flex flex-col gap-3 items-center transition cursor-pointer
-                ${isEmpty ? "bg-gray-100 border-gray-300 opacity-60" : "bg-[#FFF9E0] border-[#FFBF69]"}
-                ${isLive && day === WEEKDAYS[new Date().getDay()] ? "bg-red-100 border-red-300 scale-110 hover:bg-red-200 hover:border-red-400 transition-all" : "bg-[#FFF9E0] border-[#FFBF69]"}
+                relative flex flex-col gap-2 p-4 pt-7 min-h-44 shadow-paper transition
+                hover:rotate-0 hover:-translate-y-1 hover:shadow-paper-lg
+                ${TILTS[index]}
+                ${isLiveToday ? "bg-note-pink" : isEmpty ? "bg-white/80" : index % 2 ? "bg-note-peach" : "bg-note-yellow"}
               `}
-              onClick={() => window.open(`https://twitch.tv/${isLive && day === WEEKDAYS[new Date().getDay()] ? "twiswua" : "twiswua/schedule"}`, "_blank")}
             >
-              <div className={isLive && day === WEEKDAYS[new Date().getDay()] ? "rounded-full py-2 px-4 text-white font-bold bg-red-800" : "rounded-full py-2 px-4 text-white font-bold bg-[#5C4036]"}>{day}</div>
+              <Washi className="-top-3 left-1/2 -translate-x-1/2 w-16 h-6 rotate-2" />
+              <div className={`font-marker text-xl ${isEmpty ? "text-bark/40" : "text-bark"}`}>{day}</div>
               {isEmpty ? (
-                <div className="text-gray-400 font-semibold">{isOnVacation ? "On Break" : "No Stream"}</div>
+                <div className="font-hand text-2xl font-bold text-bark/40 my-auto">
+                  {isOnVacation ? "On Break" : "No Stream"}
+                </div>
               ) : (
-                <div className="text-center gap-1 flex flex-col">
-                  <div className={isLive && day === WEEKDAYS[new Date().getDay()] ? "text-red-800 text-sm" : "text-[#FE9E1C] text-sm"}>{isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.game_name : item.game}</div>
-                  <div className={isLive && day === WEEKDAYS[new Date().getDay()] ? "text-red-800 font-bold" : "text-[#FE9E1C] font-bold"}>{isLive && day === WEEKDAYS[new Date().getDay()] ? <span className="animate-pulse">🔴 Live</span> : item.time}</div>
-                  <div className="font-bold text-center">{isLive && day === WEEKDAYS[new Date().getDay()] ? liveData.title : item.description}</div>
+                <div className="flex flex-col gap-1">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-bark-light">
+                    {isLiveToday ? liveData?.game_name : item.game}
+                  </div>
+                  {isLiveToday ? (
+                    <span className="self-start inline-flex items-center gap-2 border-2 border-stamp text-stamp font-marker text-lg px-2 rounded-sm -rotate-6 my-1">
+                      <FontAwesomeIcon icon={faCircle} className="text-[0.5em] animate-pulse" />
+                      Live
+                    </span>
+                  ) : (
+                    <div className="font-hand text-3xl font-bold text-tiger-dark leading-none">{item.time}</div>
+                  )}
+                  <div className="font-semibold text-bark leading-snug">
+                    {isLiveToday ? liveData?.title : item.description}
+                  </div>
                 </div>
               )}
-            </div>
+            </a>
           );
         })}
       </div>
@@ -265,20 +354,35 @@ const MerchSection = () => {
     },
   ];
 
+
   return (
-    <section className="p-10 flex flex-col gap-5" id="shop">
-      <h3 className="font-bold text-4xl text-center text-[#3F2722]">Tiger Threads Merch</h3>
-      <div className="text-center text-[#3F2722]">Wear your stripes with rawr!</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <section id="shop" className="flex flex-col gap-14">
+      <SectionHeading title="Tiger Threads Merch" note="Wear your stripes with rawr!" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-12 sm:gap-10 px-2">
         {Merch.map((merch, index) => (
-          <div className="bg-white rounded-2xl p-3 flex flex-col gap-3" key={index}>
-            <div className="bg-gray-100 w-full aspect-square rounded-2xl bg-cover" style={{ backgroundImage: `url("${merch.cover_photo}")` }}></div>
-            <div className="text-[#3F2722] font-bold text-xl">{merch.name}</div>
-            <div className="flex justify-between items-center">
-              <div className="text-[#FE9E1C] font-bold">₱{merch.price}</div>
-              <div className="bg-[#3F2722] rounded-2xl py-2 px-4 text-white font-bold">Out of Stock</div>
+          <figure
+            key={index}
+            className={`relative bg-white p-3 pb-5 shadow-paper transition hover:rotate-0 hover:-translate-y-1 hover:shadow-paper-lg ${TILTS[index + 1]}`}
+          >
+            <Washi className={`-top-3 left-1/2 -translate-x-1/2 ${index % 2 ? "rotate-3 [--washi-color:rgb(248_115_23/0.45)]" : "-rotate-3"}`} />
+            <div className="relative">
+              <img
+                src={merch.cover_photo}
+                alt={merch.name}
+                loading="lazy"
+                className="w-full aspect-square object-cover bg-sand"
+              />
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 border-4 border-stamp text-stamp bg-white/75 font-marker text-xl uppercase whitespace-nowrap px-3 py-1 rounded-md">
+                Out of Stock
+              </span>
             </div>
-          </div>
+            <figcaption className="mt-4 flex items-end justify-between gap-3">
+              <span className="font-hand text-3xl font-bold text-bark leading-none">{merch.name}</span>
+              <span className="shrink-0 bg-note-yellow px-2 py-0.5 font-extrabold text-bark rotate-3 shadow-sm">
+                ₱{merch.price}
+              </span>
+            </figcaption>
+          </figure>
         ))}
       </div>
     </section>
@@ -287,27 +391,36 @@ const MerchSection = () => {
 
 const SocialSection = () => {
   const Socials = [
-    { title: "Twitch", link: "https://www.twitch.tv/twiswua", icon: faTwitch },
-    { title: "YouTube", link: "https://www.youtube.com/@twiswua", icon: faYoutube },
-    { title: "Twitter", link: "https://x.com/twiswua", icon: faXTwitter },
-    { title: "Instagram", link: "https://www.instagram.com/twiswua_/", icon: faInstagram },
+    { title: "Twitch", link: "https://www.twitch.tv/twiswua", icon: faTwitch, color: "#9146FF" },
+    { title: "YouTube", link: "https://www.youtube.com/@twiswua", icon: faYoutube, color: "#FF0033" },
+    { title: "Twitter", link: "https://x.com/twiswua", icon: faXTwitter, color: "#111111" },
+    { title: "Instagram", link: "https://www.instagram.com/twiswua_/", icon: faInstagram, color: "#E1306C" },
   ];
 
+
   return (
-    <section className="bg-[#FE9E1C] p-10 rounded-4xl flex flex-col gap-5" id="socials">
-      <h3 className="font-bold text-4xl text-center text-white">Stalk Me on Socials</h3>
-      <div className="text-center text-white font-bold">Don't be shy, say hi!</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-200 w-full mx-auto">
+    <section id="socials" className="relative kraft-paper shadow-paper-lg px-5 py-14 sm:p-14 flex flex-col gap-12">
+      <Washi className="-top-3 left-10 -rotate-3" />
+      <Washi className="-top-3 right-10 rotate-3 [--washi-color:rgb(248_115_23/0.5)]" />
+      <SectionHeading title="Stalk Me on Socials" note="Don't be shy, say hi!" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 max-w-3xl w-full mx-auto">
         {Socials.map((social, index) => (
           <a
             href={social.link}
             target="_blank"
             rel="noopener noreferrer"
             key={index}
-            className="bg-[#FFB249] rounded-2xl p-3 flex items-center gap-3 text-[#3F2722] font-bold text-xl transition border border-[#FFD192] flex flex-col items-center justify-center text-[#FEFFFE] aspect-square hover:scale-110 transition-all"
+            className={`group flex flex-col items-center gap-3 ${TILTS[index + 2]}`}
           >
-            <div className="text-4xl"><FontAwesomeIcon icon={social.icon} /></div>
-            <div className="font-bold">{social.title}</div>
+            <span
+              className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-[6px] border-white shadow-paper flex items-center justify-center text-5xl text-white transition group-hover:scale-110 group-hover:rotate-12"
+              style={{ backgroundColor: social.color }}
+            >
+              <FontAwesomeIcon icon={social.icon} />
+            </span>
+            <span className="font-hand text-3xl font-bold text-bark group-hover:text-tiger-dark transition-colors">
+              {social.title}
+            </span>
           </a>
         ))}
       </div>
@@ -319,6 +432,7 @@ export default function Home() {
   return (
     <Template.Default>
       <HeroSection />
+      <TapeTicker />
       <ScheduleSection />
       <MerchSection />
       <SocialSection />

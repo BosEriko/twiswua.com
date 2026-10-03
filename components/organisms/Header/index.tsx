@@ -1,50 +1,63 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import Navigation from "../Navigation";
-import { useRouter } from "next/navigation";
-import { Pixelify_Sans } from "next/font/google";
-
-const pixelify = Pixelify_Sans({
-  subsets: ["latin"],
-  weight: ["700"],
-});
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaw, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faTwitch } from "@fortawesome/free-brands-svg-icons";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
 
   return (
-    <header>
-      <div className="container mx-auto p-4 flex justify-between">
-        <button onClick={() => router.push("/")} className="flex items-center gap-3 md:hidden">
-          <h2
-            className={`${pixelify.className} text-3xl md:text-4xl font-bold text-[#F87317] flex items-center gap-3`}
+    <header className="sticky top-0 z-50 drop-shadow-[0_6px_6px_rgb(63_39_34/0.15)]">
+      <div className="bg-white torn-bottom pb-3">
+        <div className="container mx-auto px-4 h-20 flex items-center justify-between gap-6">
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="group font-marker text-3xl md:text-4xl text-tiger flex items-center gap-3"
           >
-            <span>🐯</span>
+            <span className="w-11 h-11 rounded-full bg-tiger text-white flex items-center justify-center text-xl -rotate-12 group-hover:animate-wiggle">
+              <FontAwesomeIcon icon={faPaw} />
+            </span>
             <span>TwisWua</span>
-          </h2>
-        </button>
-        <button
-          className="md:hidden text-2xl font-bold"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-        <div className={`flex-1 flex-col md:flex md:flex-row md:justify-between md:items-center w-full md:w-auto absolute md:static top-16 left-0 md:top-auto md:left-auto bg-white md:bg-transparent p-4 md:p-0 transition-all duration-300 ${menuOpen ? "flex" : "hidden"}`}>
-          <button onClick={() => router.push("/")} className="flex items-center gap-3 hidden md:block">
-            <h2
-              className={`${pixelify.className} text-3xl md:text-4xl font-bold text-[#F87317] flex items-center gap-3`}
+          </Link>
+          <div className="hidden md:flex items-center gap-4">
+            <Navigation />
+            <a
+              href="https://twitch.tv/TwisWua"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-tiger hover:bg-tiger-dark rounded-md py-2 px-4 text-white font-bold shadow-paper rotate-1 hover:rotate-0 transition"
             >
-              <span>🐯</span>
-              <span>TwisWua</span>
-            </h2>
+              <FontAwesomeIcon icon={faTwitch} />
+              Go to Twitch
+            </a>
+          </div>
+          <button
+            type="button"
+            className="md:hidden text-xl w-12 h-12 flex items-center justify-center rounded-md bg-note-yellow shadow-paper -rotate-3"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} />
           </button>
-          <Navigation />
+        </div>
+        <div
+          id="mobile-menu"
+          className={`md:hidden border-t-2 border-dashed border-bark/20 px-4 pb-6 pt-4 flex-col gap-4 ${menuOpen ? "flex" : "hidden"}`}
+        >
+          <Navigation onNavigate={() => setMenuOpen(false)} />
           <a
             href="https://twitch.tv/TwisWua"
             target="_blank"
-            className="bg-[#F87317] rounded-full py-2 px-4 text-white font-bold mt-4 md:mt-0 md:ml-4 text-center transition-all hover:scale-105"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 bg-tiger hover:bg-tiger-dark rounded-md py-3 px-5 text-white font-bold shadow-paper"
           >
+            <FontAwesomeIcon icon={faTwitch} />
             Go to Twitch
           </a>
         </div>
