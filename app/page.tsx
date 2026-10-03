@@ -69,7 +69,7 @@ const HeroSection = () => {
         <figure className="relative bg-white p-4 pb-16 shadow-paper-lg rotate-3 hover:rotate-1 transition-transform">
           <Washi className="-top-3 left-1/2 -translate-x-1/2 -rotate-3" />
           <img
-            src="/images/placeholder.png"
+            src="/images/twis.png"
             alt="TwisWua, the tiger streamer"
             className="w-full aspect-square object-cover bg-sand"
           />
